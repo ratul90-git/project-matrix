@@ -1,0 +1,35 @@
+services:
+  databaseHost:
+    image: postgres:17.3-bookworm
+    container_name: databaseHostContainer
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database-config/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - matrixNetwork
+
+  databaseManagerHost:
+    image: dbeaver/cloudbeaver:24.3.5
+    container_name: databaseManagerHostContainer
+    ports:
+      - "${CLOUD_BEAVER_PORT:-8080}:8978"
+    volumes:
+      - cloudbeaver_data:/opt/cloudbeaver/workspace
+    depends_on:
+      - databaseHost
+    networks:
+      - matrixNetwork
+
+volumes:
+  postgres_data:
+  cloudbeaver_data:
+  
+networks:
+  matrixNetwork:
+    driver: bridge
