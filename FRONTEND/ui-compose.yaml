@@ -1,0 +1,10 @@
+services:
+  ui-host:
+    build:
+      context: ./matrix-react-app
+      dockerfile: Dockerfile
+    ports:
+      - "${REACTUI_PORT:-3000}:3000"
+    volumes:
+      - ./matrix-react-app:/app
+      - /app/node_modules
