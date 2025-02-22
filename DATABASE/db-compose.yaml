@@ -1,6 +1,6 @@
 services:
   databaseHost:
-    image: postgres:17.3-bookworm
+    image: postgres:17.3
     container_name: databaseHostContainer
     ports:
       - "${POSTGRES_PORT:-5432}:5432"

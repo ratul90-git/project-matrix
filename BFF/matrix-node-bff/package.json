@@ -8,6 +8,7 @@
   "description": "Node.js BFF for Project Matrix",
   "dependencies": {
     "axios": "^1.7.9",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "cors": "^2.8.5"
   }
 }

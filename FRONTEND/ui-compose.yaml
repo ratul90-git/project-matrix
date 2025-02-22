@@ -6,5 +6,5 @@ services:
     ports:
       - "${REACTUI_PORT:-3000}:3000"
     volumes:
-      - ./matrix-react-app:/app
+      - ./matrix-react-app:/app:delegated
       - /app/node_modules
