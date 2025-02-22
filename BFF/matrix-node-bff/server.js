@@ -30,6 +30,18 @@ app.get('/api/data', async (req, res) => {
   }
 });
 
+// Route to handle login
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const response = await axios.post('http://host.docker.internal:8080/api/login', { username, password });
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error during login:', error.message);
+    res.status(500).json({ error: 'Failed to login' });
+  }
+});
+
 app.listen(port, () => {
   console.log(`BFF server running at http://localhost:${port}`);
 });

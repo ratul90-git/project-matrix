@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import Login from './Login';
+import Welcome from './Welcome';
 
 function App() {
-  const [data, setData] = useState(null);
+  const [username, setUsername] = useState(null);
 
-  useEffect(() => {
-    axios.get('http://localhost:5000/api/data')
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+  const handleLogin = (username) => {
+    setUsername(username);
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hello User, welcome to my favourite react application!</h1>
-        {data && <p>Data from BFF: {JSON.stringify(data)}</p>}
+        {username ? (
+          <Welcome username={username} />
+        ) : (
+          <Login onLogin={handleLogin} />
+        )}
       </header>
     </div>
   );
