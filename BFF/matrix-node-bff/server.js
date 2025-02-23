@@ -20,7 +20,7 @@ app.use(cors());
 // });
 
 // Example route to fetch data from the Spring Boot service
-app.get('/api/data', async (req, res) => {
+app.get('/data', async (req, res) => {
   try {
     const response = await axios.get('http://host.docker.internal:8080/api/data');
     res.json(response.data);
