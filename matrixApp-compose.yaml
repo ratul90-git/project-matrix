@@ -1,0 +1,84 @@
+services:
+  database-service:
+    image: postgres:17.3
+    container_name: database-container
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./DATABASE/database-config/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - matrix-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  databaseManager-service:
+    image: dbeaver/cloudbeaver:24.3.5
+    container_name: databaseManager-container
+    ports:
+      - "${CLOUD_BEAVER_PORT:-8080}:8978"
+    volumes:
+      - cloudbeaver_data:/opt/cloudbeaver/workspace
+    depends_on:
+      database-service:
+        condition: service_healthy
+    networks:
+      - matrix-network
+      
+  welcome-micro-service:
+    build:
+      context: ./MICROSERVICES/welcomeService
+      dockerfile: ./Dockerfile
+    container_name: welcome-micro-container
+    ports:
+      - "${WS_PORT:-8080}:8080"
+    depends_on:
+      database-service:
+        condition: service_healthy
+    networks:
+      - matrix-network
+      
+  bff-service:
+    build:
+      context: ./BFF/matrix-node-bff
+      dockerfile: ./Dockerfile
+    container_name: bff-container
+    ports:
+      - "${BFF_PORT:-5000}:5000"
+    volumes:
+      - ./BFF/matrix-node-bff:/app:delegated
+      - /app/node_modules
+    depends_on:
+      - welcome-micro-service
+    networks:
+      - matrix-network
+      
+  ui-service:
+    build:
+      context: ./FRONTEND/matrix-react-app
+      dockerfile: ./Dockerfile
+    container_name: ui-container
+    ports:
+      - "${REACTUI_PORT:-3000}:3000"
+    volumes:
+      - ./FRONTEND/matrix-react-app:/app:delegated
+      - /app/node_modules
+    depends_on:
+      - bff-service
+    networks:
+      - matrix-network
+
+volumes:
+  postgres_data:
+  cloudbeaver_data:
+  
+networks:
+  matrix-network:
+    driver: bridge
