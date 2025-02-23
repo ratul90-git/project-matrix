@@ -1,7 +1,6 @@
 services:
   database-service:
     image: postgres:17.3
-    container_name: database-container
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
@@ -14,14 +13,13 @@ services:
     networks:
       - matrix-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
 
   databaseManager-service:
     image: dbeaver/cloudbeaver:24.3.5
-    container_name: databaseManager-container
     ports:
       - "${CLOUD_BEAVER_PORT:-8080}:8978"
     volumes:
@@ -36,7 +34,6 @@ services:
     build:
       context: ./MICROSERVICES/welcomeService
       dockerfile: ./Dockerfile
-    container_name: welcome-micro-container
     ports:
       - "${WS_PORT:-8080}:8080"
     depends_on:
@@ -49,12 +46,10 @@ services:
     build:
       context: ./BFF/matrix-node-bff
       dockerfile: ./Dockerfile
-    container_name: bff-container
     ports:
       - "${BFF_PORT:-5000}:5000"
     volumes:
       - ./BFF/matrix-node-bff:/app:delegated
-      - /app/node_modules
     depends_on:
       - welcome-micro-service
     networks:
@@ -64,12 +59,10 @@ services:
     build:
       context: ./FRONTEND/matrix-react-app
       dockerfile: ./Dockerfile
-    container_name: ui-container
     ports:
       - "${REACTUI_PORT:-3000}:3000"
     volumes:
       - ./FRONTEND/matrix-react-app:/app:delegated
-      - /app/node_modules
     depends_on:
       - bff-service
     networks:

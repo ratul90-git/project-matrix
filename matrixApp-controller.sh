@@ -45,7 +45,17 @@ sed -e "s/\${POSTGRES_DB}/${POSTGRES_DB}/g" \
     
 # Perform action-specific commands
 if [ "$ACTION" == "start" ]; then
-  docker compose -f ./matrixApp-compose.yaml up -d
+  read -p "Do you need to rebuild the microservice? (y/n): " rebuild_microservice
+  
+  if [ "$rebuild_microservice" == "y" ]; then
+    docker compose -f ./matrixApp-compose.yaml up -d --build --force-recreate welcome-micro-service
+  elif [ "$rebuild_microservice" == "n" ]; then
+    docker compose -f ./matrixApp-compose.yaml up -d
+  else
+    echo "Invalid input. Please enter 'y' or 'n'."
+    exit 1  # Exit with an error code
+  fi
+  
 elif [ "$ACTION" == "stop" ]; then
   docker compose -f ./matrixApp-compose.yaml down
 fi
