@@ -1,8 +1,7 @@
 services:
-  welcome-service:
+  welcome-micro-service:
     build:
       context: ./welcomeService
-      dockerfile: Dockerfile
-    container_name: welcome-service-container
+      dockerfile: ./Dockerfile
     ports:
       - "${WS_PORT:-8080}:8080"

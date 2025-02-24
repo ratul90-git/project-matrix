@@ -27,8 +27,7 @@ services:
     volumes:
       - cloudbeaver_data:/opt/cloudbeaver/workspace
     depends_on:
-      database-service:
-        condition: service_healthy
+      - database-service
     networks:
       - matrix-network
       
@@ -36,7 +35,6 @@ services:
     build:
       context: ./MICROSERVICES/welcomeService
       dockerfile: ./Dockerfile
-    container_name: welcome-micro-container
     ports:
       - "${WS_PORT:-8080}:8080"
     depends_on:
@@ -49,12 +47,11 @@ services:
     build:
       context: ./BFF/matrix-node-bff
       dockerfile: ./Dockerfile
-    container_name: bff-container
     ports:
       - "${BFF_PORT:-5000}:5000"
     volumes:
       - ./BFF/matrix-node-bff:/app:delegated
-      - /app/node_modules
+      - bff_node_modules:/app/node_modules
     depends_on:
       - welcome-micro-service
     networks:
@@ -64,12 +61,11 @@ services:
     build:
       context: ./FRONTEND/matrix-react-app
       dockerfile: ./Dockerfile
-    container_name: ui-container
     ports:
       - "${REACTUI_PORT:-3000}:3000"
     volumes:
       - ./FRONTEND/matrix-react-app:/app:delegated
-      - /app/node_modules
+      - frontend_node_modules:/app/node_modules
     depends_on:
       - bff-service
     networks:
@@ -78,6 +74,8 @@ services:
 volumes:
   postgres_data:
   cloudbeaver_data:
+  bff_node_modules:
+  frontend_node_modules:
   
 networks:
   matrix-network:
