@@ -49,6 +49,8 @@ sed -e "s/\${POSTGRES_DB}/${POSTGRES_DB}/g" \
 if [ "$ACTION" == "start" ]; then
   docker compose -f ./matrixApp-compose.yaml build welcome-micro-service
   docker compose -f ./matrixApp-compose.yaml build login-micro-service
+  docker compose -f ./matrixApp-compose.yaml build bff-service
+  docker compose -f ./matrixApp-compose.yaml build ui-service
   docker compose -f ./matrixApp-compose.yaml up -d
 elif [ "$ACTION" == "stop" ]; then
   docker compose -f ./matrixApp-compose.yaml down
