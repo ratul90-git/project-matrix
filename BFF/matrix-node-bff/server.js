@@ -10,6 +10,12 @@ app.use(express.json());
 // Enable CORS for all routes
 app.use(cors());
 
+// Import routes
+const userRoutes = require('./routes/users');
+
+// Use routes
+app.use(userRoutes);
+
 // // Example route to return a dummy response
 // app.get('/api/data', (req, res) => {
 //   const dummyData = {

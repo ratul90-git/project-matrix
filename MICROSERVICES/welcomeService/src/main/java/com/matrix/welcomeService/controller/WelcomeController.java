@@ -27,7 +27,7 @@ public class WelcomeController {
 
         Map<String, Object> response = new HashMap<>();
         // Simple validation for demonstration purposes
-        if ("user".equals(username) && "12345".equals(password)) {
+        if ("admin".equals(username) && "12345".equals(password)) {
             response.put("success", true);
         } else {
             response.put("success", false);

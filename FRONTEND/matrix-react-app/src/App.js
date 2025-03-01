@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './App.css';
 import Login from './Login';
 import Welcome from './Welcome';
@@ -11,11 +10,15 @@ function App() {
     setUsername(username);
   };
 
+  const handleLogout = () => {
+    setUsername(null);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         {username ? (
-          <Welcome username={username} />
+          <Welcome username={username} onLogout={handleLogout} />
         ) : (
           <Login onLogin={handleLogin} />
         )}

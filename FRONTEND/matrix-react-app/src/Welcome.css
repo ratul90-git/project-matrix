@@ -4,9 +4,76 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  text-align: center;
+}
+
+.Welcome-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.logout-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #45a049;
 }
 
 .Welcome h1 {
   font-size: 2em;
   color: #61dafb;
+}
+
+table {
+  margin: 20px auto;
+  border-collapse: collapse;
+  width: 90%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 1em;
+  color: #333; /* Ensure text color is consistent */
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:nth-child(odd) {
+  background-color: #fff; /* Ensure odd rows have a white background */
+}
+
+tr:hover {
+  background-color: #e0e0e0; /* Increased hover color shade */
+}
+
+table thead th {
+  background-color: #4CAF50;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+table tbody tr {
+  transition: background-color 0.3s ease;
 }
