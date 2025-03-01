@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "63906b1b-1db6-4251-8581-ede07cdf4bda",
+		"_postman_id": "d406e311-95e8-44c8-abf9-8dac733907d4",
 		"name": "ProjectMatrix",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "42552288"
@@ -138,7 +138,49 @@
 		},
 		{
 			"name": "loginService",
-			"item": []
+			"item": [
+				{
+					"name": "getDetails-Springboot",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/users/getDetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"users",
+								"getDetails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getDetails BFF",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/getDetails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"getDetails"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

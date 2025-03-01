@@ -8,9 +8,10 @@ POSTGRES_USER="dreamer"
 POSTGRES_PASSWORD="Beginner@2025"
 POSTGRES_PORT="6432"
 CLOUD_BEAVER_PORT="9080"
-WS_PORT="8080"
 BFF_PORT="5000"
 REACTUI_PORT="4000"
+WS_PORT="8080"
+LS_PORT="8081"
 
 ACTION="$1"
 
@@ -33,9 +34,10 @@ export POSTGRES_USER
 export POSTGRES_PASSWORD
 export POSTGRES_PORT
 export CLOUD_BEAVER_PORT
-export WS_PORT
 export BFF_PORT
 export REACTUI_PORT
+export WS_PORT
+export LS_PORT
 
 # Substitute environment variables in the .init_db_template.sql script
 sed -e "s/\${POSTGRES_DB}/${POSTGRES_DB}/g" \
@@ -46,6 +48,7 @@ sed -e "s/\${POSTGRES_DB}/${POSTGRES_DB}/g" \
 # Perform action-specific commands
 if [ "$ACTION" == "start" ]; then
   docker compose -f ./matrixApp-compose.yaml build welcome-micro-service
+  docker compose -f ./matrixApp-compose.yaml build login-micro-service
   docker compose -f ./matrixApp-compose.yaml up -d
 elif [ "$ACTION" == "stop" ]; then
   docker compose -f ./matrixApp-compose.yaml down

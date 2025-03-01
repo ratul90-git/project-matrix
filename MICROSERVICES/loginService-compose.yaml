@@ -1,0 +1,7 @@
+services:
+  login-micro-service:
+    build:
+      context: ./loginService
+      dockerfile: ./Dockerfile
+    ports:
+      - "${LS_PORT:-8081}:8081"

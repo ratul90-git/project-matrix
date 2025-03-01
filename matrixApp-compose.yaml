@@ -45,6 +45,18 @@ services:
         condition: service_healthy
     networks:
       - matrix-network
+
+  login-micro-service:
+    build:
+      context: ./MICROSERVICES/loginService
+      dockerfile: ./Dockerfile
+    ports:
+      - "${LS_PORT:-8081}:8081"
+    depends_on:
+      database-service:
+        condition: service_healthy
+    networks:
+      - matrix-network
       
   bff-service:
     build:
