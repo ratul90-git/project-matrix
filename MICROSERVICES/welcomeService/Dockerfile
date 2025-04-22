@@ -13,7 +13,7 @@ COPY .mvn .mvn
 COPY src ./src
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN ./mvnw clean package -DskipTests
 
 # Runtime Stage - Use JRE only to keep the final image lightweight
 FROM eclipse-temurin:21.0.6_7-jre-alpine
